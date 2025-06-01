@@ -1,0 +1,17 @@
+.headbar {
+    background-color: #1976d2;
+    color: white;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-btn {
+    background: white;
+    color: #1976d2;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
