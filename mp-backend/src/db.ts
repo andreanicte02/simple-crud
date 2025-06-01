@@ -1,5 +1,4 @@
-
-import { ConnectionPool, config  } from "mssql";
+import { ConnectionPool, config } from "mssql";
 
 export const dbConfig: config = {
     user: "sa",
@@ -10,6 +9,8 @@ export const dbConfig: config = {
         encrypt: false,
         trustServerCertificate: true
     }
-}
+};
 
 export const pool = new ConnectionPool(dbConfig);
+
+export const poolConnect = pool.connect();
