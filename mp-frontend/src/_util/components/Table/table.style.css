@@ -1,6 +1,5 @@
 .project-table-container {
-    width: 100%;
-    padding: 1rem;
+    width: 95%;
     background: #fafbfc;
     border-radius: 18px;
     box-shadow: 0 2px 8px rgba(60, 60, 60, 0.08);
@@ -53,12 +52,11 @@
 .pt-no-data {
     text-align: center;
     color: #888;
-    padding: 2rem 0;
     background: #f9fafb;
 }
 
 .pt-loader {
-    padding: 2rem 0;
+
     text-align: center;
     color: #1976d2;
     font-weight: 500;
