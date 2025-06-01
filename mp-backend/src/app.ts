@@ -1,7 +1,13 @@
 import express from "express";
 const app = express();
+const cors = require('cors');
 
 app.use(express.json());
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 
 import prosecutionOfficeRoutes from "./routes/presecutionOffice.route";
 import fiscalRoute from "./routes/fiscal.route";
@@ -10,6 +16,7 @@ import caseStateRoute from "./routes/caseState.route";
 import caseRoute from "./routes/case.route";
 import logRoute from "./routes/log.route";
 import authRoute from "./routes/auth.route";
+
 app.use("/prosecution-offices", prosecutionOfficeRoutes);
 app.use("/prosecution", fiscalRoute);
 app.use("/users", userRoute);

@@ -1,6 +1,6 @@
 export interface AuthRequest {
     username: string;
-    password: string;
+    password_hash: string;
 }
 
 export interface AuthResponse {

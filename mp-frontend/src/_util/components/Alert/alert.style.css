@@ -1,0 +1,31 @@
+.custom-alert {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: background 0.3s;
+}
+
+.custom-alert.success {
+    background-color: #e6f4ea;
+    color: #1b5e20;
+    border: 1px solid #56c596;
+}
+
+.custom-alert.danger {
+    background-color: #ffebee;
+    color: #b71c1c;
+    border: 1px solid #ef5350;
+}
+
+.custom-alert .icon {
+    margin-right: 12px;
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+}

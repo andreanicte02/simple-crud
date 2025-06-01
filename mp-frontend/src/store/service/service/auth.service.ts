@@ -7,12 +7,12 @@ import {keyStorage} from "../../../_util/enums.ts";
 export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${process.env.REACT_APP_API_URL}/api/`,
+        baseUrl: `${import.meta.env.VITE_API_URL}/auth/`,
     }),
     endpoints: (builder) => ({
         auth: builder.mutation<AuthResponse, AuthRequest>({
             query: (data) => ({
-                url: `auth`,
+                url: `login`,
                 method: 'POST',
                 body: data,
                 providesTags: ['Post'],
