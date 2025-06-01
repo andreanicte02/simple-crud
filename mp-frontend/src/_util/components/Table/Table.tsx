@@ -1,5 +1,5 @@
-import "./ProjectTable.css";
-import {type Column} from "./column";
+import "./table.style.css";
+import {type column as Column} from "./column";
 
 type CustomTableProps<T extends object> = {
     columns: ReadonlyArray<Column<T>>;

@@ -1,4 +1,4 @@
-export interface Column<T> {
+export interface column<T> {
     id: string;
     dataField?: keyof T;
     label: string;
