@@ -6,13 +6,14 @@ import {
     listStatesCase,
     updateStateCase
 } from "../controllers/caseState.controller";
+import {verifyToken} from "../middleware/auth.middleware";
 
 const router = Router();
 
-router.get("/", listStatesCase);
-router.get("/:id", getStateCaseById);
-router.post("/", createStateCase);
-router.put("/:id", updateStateCase);
-router.delete("/:id", deleteStateCase);
+router.get("/", verifyToken,listStatesCase);
+router.get("/:id", verifyToken,getStateCaseById);
+router.post("/", verifyToken,createStateCase);
+router.put("/:id", verifyToken,updateStateCase);
+router.delete("/:id", verifyToken,deleteStateCase);
 
 export default router;

@@ -5,11 +5,15 @@
     "start": "node dist/app.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mssql": "^11.0.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/mssql": "^9.1.7",
     "@types/node": "^22.15.29",
     "nodemon": "^3.1.10",
