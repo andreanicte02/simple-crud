@@ -3,4 +3,5 @@ export interface User {
     username: string;
     password_hash: string;
     id_fiscal: number;
+    rol: string
 }

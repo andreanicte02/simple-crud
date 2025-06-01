@@ -5,13 +5,12 @@ import { pool } from "../db";
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecreto";
 
-
 export const login = async (req: Request, res: Response) => {
-    const { username, password_hash } = req.body; // <- OJO: debe ser 'password'
+    const { username, password_hash } = req.body;
     try {
         const result = await pool.request()
             .input("username", username)
-            .query("SELECT id_usuario, username, password_hash, id_fiscal FROM Usuario WHERE username = @username");
+            .query("SELECT id_usuario, username, password_hash, id_fiscal, rol FROM Usuario WHERE username = @username");
         if (result.recordset.length === 0) {
             res.status(401).json({ error: "Usuario no encontrado" });
             return;
@@ -25,7 +24,12 @@ export const login = async (req: Request, res: Response) => {
             return;
         }
         const token = jwt.sign(
-            { id_usuario: user.id_usuario, username: user.username, id_fiscal: user.id_fiscal },
+            {
+                id_usuario: user.id_usuario,
+                username: user.username,
+                id_fiscal: user.id_fiscal,
+                rol: user.rol
+            },
             JWT_SECRET,
             { expiresIn: "8h" }
         );
@@ -36,6 +40,7 @@ export const login = async (req: Request, res: Response) => {
                 id_usuario: user.id_usuario,
                 username: user.username,
                 id_fiscal: user.id_fiscal,
+                rol: user.rol
             }
         });
     } catch (err: any) {
