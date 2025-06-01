@@ -1,14 +1,19 @@
-import type {CaseResponse} from "../../../../../store/service/model/case.model.ts";
-import type {column} from "../../../../../_util/components/Table/column.ts";
-import Button from "../../../../../_util/components/Button/Button.tsx";
+import type { column } from "../../../../../_util/components/Table/column";
+import Button from "../../../../../_util/components/Button/Button";
+import type {CaseInfo} from "../../../../../store/service/model/case.model.ts";
 
-
-export const caseColumns: ReadonlyArray<column<CaseResponse>> = [
+export const caseColumns: ReadonlyArray<column<CaseInfo>> = [
     {
         id: 'id_caso',
         dataField: 'id_caso',
         label: 'ID CASO',
         format: (row) => <div>{row.id_caso}</div>,
+    },
+    {
+        id: 'titulo',
+        dataField: 'titulo',
+        label: 'TÍTULO',
+        format: (row) => <div>{row.titulo}</div>,
     },
     {
         id: 'descripcion',
@@ -31,23 +36,23 @@ export const caseColumns: ReadonlyArray<column<CaseResponse>> = [
         ),
     },
     {
-        id: 'id_estado',
-        dataField: 'id_estado',
+        id: 'nombre_estado',
+        dataField: 'nombre_estado',
         label: 'ESTADO',
-        format: (row) => <div>{row.id_estado}</div>,
+        format: (row) => <div>{row.nombre_estado}</div>,
     },
     {
-        id: 'id_fiscal',
-        dataField: 'id_fiscal',
-        label: 'FISCAL',
-        format: (row) => <div>{row.id_fiscal}</div>,
+        id: 'nombre_fiscalia',
+        dataField: 'nombre_fiscalia',
+        label: 'FISCALÍA',
+        format: (row) => <div>{row.nombre_fiscalia}</div>,
     },
     {
         id: 'actions',
         label: 'ACCIONES',
         format: () => (
             <Button>
-              Detalle
+                Detalle
             </Button>
         ),
     },

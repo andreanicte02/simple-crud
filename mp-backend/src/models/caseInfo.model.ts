@@ -1,16 +1,12 @@
-export type CaseInfoListRequest = void;
-
 export interface CaseInfo {
     id_caso: number;
     titulo: string;
     descripcion: string;
-    fecha_creacion: string; // ISO string
+    fecha_creacion: string;
     id_estado: number;
     nombre_estado: string;
     id_fiscal: number;
+    nombre_fiscal: string;
     id_fiscalia: number;
     nombre_fiscalia: string;
-    nombre_fiscal: string
 }
-
-export type CaseInfoListResponse = CaseInfo[];

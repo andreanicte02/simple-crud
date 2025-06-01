@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { pool } from "../db";
 import {Case} from "../models/case.model";
+import {CaseInfo} from "../models/caseInfo.model";
 
 export const listCases = async (_req: Request, res: Response): Promise<void> => {
     try {
@@ -97,6 +98,36 @@ export const deleteCase = async (req: Request, res: Response): Promise<void> => 
         WHERE id_caso = @id_caso
       `);
         res.json({ message: "Caso eliminado" });
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
+    } finally {
+        await pool.close();
+    }
+};
+
+
+
+export const listCasesInfo = async (_req: Request, res: Response): Promise<void> => {
+    try {
+        await pool.connect();
+        const result = await pool.request().query(`
+      SELECT 
+        C.id_caso,
+        C.titulo,
+        C.descripcion,
+        C.fecha_creacion,
+        C.id_estado,
+        E.nombre AS nombre_estado,
+        C.id_fiscal,
+        F.nombre AS nombre_fiscal,         -- Se agrega el nombre del fiscal
+        C.id_fiscalia,
+        FA.nombre AS nombre_fiscalia
+      FROM Caso C
+      JOIN Estado_Caso E ON C.id_estado = E.id_estado
+      JOIN Fiscalia FA ON C.id_fiscalia = FA.id_fiscalia
+      JOIN Fiscal F ON C.id_fiscal = F.id_fiscal
+    `);
+        res.json(result.recordset as CaseInfo[]);
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
