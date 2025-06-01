@@ -1,11 +1,10 @@
 .input-mui {
-    width: 100%;
-    padding: 10px 14px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
     transition: border-color 0.3s, box-shadow 0.3s;
     background-color: #fff;
+    height: 48px;
 }
 
 .input-mui:focus {

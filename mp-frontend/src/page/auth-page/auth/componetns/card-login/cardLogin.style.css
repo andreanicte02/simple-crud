@@ -1,0 +1,15 @@
+.card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    max-width: 350px;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.card-input{
+    display: flex;
+    flex-direction: column;
+}
