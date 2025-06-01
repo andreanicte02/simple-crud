@@ -1,0 +1,17 @@
+version: "0.1"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Passw0rd
+    ports:
+      - "1433:1433"
+    restart: unless-stopped
+    networks:
+      - mp-network
+
+networks:
+  mp-network:
+    driver: bridge
