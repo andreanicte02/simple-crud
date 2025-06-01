@@ -14,7 +14,7 @@ app.use("/prosecution", fiscalRoute);
 app.use("/users", userRoute);
 app.use("/case-state", caseStateRoute);
 app.use("/case", caseRoute);
-app.use("/logs", logRoute);
+app.use("/log", logRoute);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
