@@ -5,8 +5,10 @@ app.use(express.json());
 
 import prosecutionOfficeRoutes from "./routes/presecutionOffice.route";
 import fiscalRoute from "./routes/fiscal.route";
+import userRoute from "./routes/user.route";
 app.use("/prosecution-offices", prosecutionOfficeRoutes);
 app.use("/prosecution", fiscalRoute);
+app.use("/users", userRoute);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
