@@ -4,7 +4,7 @@
     padding: 1rem;
     transition: transform 0.2s ease-in-out;
     overflow-y: auto;
-    height: calc(100vh + 70px);
+    height: calc(100vh - 70px);
     position: fixed;
     left: 0;
     width: 220px;
@@ -19,15 +19,16 @@
 
 @media (min-width: 600px) {
     .sidebar {
-        transform: translateX(0);
-        position: relative;
+        position: static; /* o quítalo por completo */
+        transform: none;  /* no se anima, es parte del flujo */
+        width: 220px;
+        flex-shrink: 0;
         box-shadow: none;
-        z-index: auto;
-
+        height: calc(100vh - 104px);
     }
 
     .sidebar.closed {
-        transform: translateX(-260px);
+        display: none;
     }
 }
 

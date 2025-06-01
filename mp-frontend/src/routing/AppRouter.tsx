@@ -2,6 +2,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {AuthPage} from "../page/auth-page/AuthPage.tsx";
 import {useGetSessionHook} from "../_util/hooks/useSessionHook.tsx";
 import {Layout} from "../_util/layout/Layout.tsx";
+import {CasePage} from "../page/case-page/CasePage.tsx";
 
 export const AppRouter = () => {
     const isLoggedIn = useGetSessionHook();
@@ -25,7 +26,7 @@ export const AppRouter = () => {
                         path="/dashboard"
                         element={
                             isLoggedIn
-                                ? <>fack</>
+                                ? <CasePage/>
                                 : <Navigate to="/login" replace/>
                         }
                     />

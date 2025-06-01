@@ -1,12 +1,11 @@
-import {Layout} from "./_util/layout/Layout.tsx";
+import {Outlet} from "react-router-dom";
 
 function App() {
 
 
     return (
         <>
-
-            <Layout/>
+            <Outlet/>
         </>
     )
 }

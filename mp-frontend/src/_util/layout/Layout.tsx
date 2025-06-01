@@ -9,10 +9,12 @@ export const Layout = () => {
     return (
         <div className="layout">
             <HeadBar onToggle={() => setSidebarOpen(!sidebarOpen)}/>
+            <div style={{flexDirection:'row', display:'flex'}}>
             <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)}/>
-            <main className={`content ${sidebarOpen ? 'blurred' : ''}`}>
+            <div className={`content`}>
                 <p>Bienvenido al contenido principal.</p>
-            </main>
+            </div>
+            </div>
         </div>
 
     );
