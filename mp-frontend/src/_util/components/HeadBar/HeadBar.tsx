@@ -7,10 +7,11 @@ interface HeadBarProps {
 
 const HeadBar: FC<HeadBarProps> = ({ onToggle }) => (
     <header className="headbar">
-        <button className="toggle-btn" onClick={onToggle}>
-            ☰
-        </button>
-        <h3> Mi Aplicación</h3>
+        <button className="toggle-btn" onClick={onToggle}>☰</button>
+        <h1 className="title">
+            <span className="full-title">Mi Aplicación Completa</span>
+            <span className="short-title">App</span>
+        </h1>
     </header>
 );
 

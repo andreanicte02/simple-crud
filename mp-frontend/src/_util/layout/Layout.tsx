@@ -1,7 +1,7 @@
 import './layout.style.css';
-import HeadBar from "../components/HeadBar/HeadBar.tsx";
-import SideBar from "../components/SideBar/SideBar.tsx";
 import {useState} from "react";
+import Sidebar from "../components/SideBar/SideBar.tsx";
+import HeadBar from "../components/HeadBar/HeadBar.tsx";
 
 export const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -9,12 +9,10 @@ export const Layout = () => {
     return (
         <div className="layout">
             <HeadBar onToggle={() => setSidebarOpen(!sidebarOpen)}/>
-            <div className="main">
-                <SideBar open={sidebarOpen}/>
-                <section className="content">
-                    <p>Bienvenido al contenido principal.</p>
-                </section>
-            </div>
+            <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)}/>
+            <main className={`content ${sidebarOpen ? 'blurred' : ''}`}>
+                <p>Bienvenido al contenido principal.</p>
+            </main>
         </div>
 
     );
