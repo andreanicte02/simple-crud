@@ -19,8 +19,8 @@
 
 @media (min-width: 600px) {
     .sidebar {
-        position: static; /* o quítalo por completo */
-        transform: none;  /* no se anima, es parte del flujo */
+        position: static;
+        transform: none;
         width: 220px;
         flex-shrink: 0;
         box-shadow: none;
