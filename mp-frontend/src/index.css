@@ -41,3 +41,13 @@ button {
   transition: border-color 0.25s;
 }
 
+.div-input{
+  display: flex;
+  flex-direction: column;
+}
+
+.div-gap{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem
+}

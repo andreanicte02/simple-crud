@@ -42,17 +42,19 @@ export const getCaseById = async (req: Request, res: Response): Promise<void> =>
 };
 
 export const createCase = async (req: Request, res: Response): Promise<void> => {
-    const { descripcion, fecha_creacion, id_estado, id_fiscal } = req.body as Omit<Case, "id_caso">;
+    const { descripcion, fecha_creacion, id_estado, id_fiscal, titulo , id_fiscalia} = req.body as Omit<Case, "id_caso">;
     try {
         await pool.connect();
         await pool.request()
             .input("descripcion", descripcion)
-            .input("fecha_creacion", fecha_creacion)
+            .input("fecha_creacion", fecha_creacion) //la feecha siempre ba en el backend por el horario xd
             .input("id_estado", id_estado)
             .input("id_fiscal", id_fiscal)
+            .input("titulo", titulo)
+            .input("id_fiscalia", id_fiscalia)
             .query(`
-        INSERT INTO Caso (descripcion, fecha_creacion, id_estado, id_fiscal)
-        VALUES (@descripcion, @fecha_creacion, @id_estado, @id_fiscal)
+        INSERT INTO Caso (descripcion, fecha_creacion, id_estado, id_fiscal, id_fiscalia, titulo)
+        VALUES (@descripcion, @fecha_creacion, @id_estado, @id_fiscal, @id_fiscalia, @titulo)
       `);
         res.json({ message: "Caso creado" });
     } catch (err: any) {

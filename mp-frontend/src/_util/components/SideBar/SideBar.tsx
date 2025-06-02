@@ -1,5 +1,6 @@
 import './sidebar.style.css';
 import type {FC} from "react";
+import {logout} from "../../functions.ts";
 
 interface SidebarProps {
     open: boolean;
@@ -15,9 +16,7 @@ const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
 
                 <ul>
                     <li tabIndex={0}>Inicio</li>
-                    <li tabIndex={0}>Fiscalías</li>
-                    <li tabIndex={0}>Casos</li>
-                    <li tabIndex={0}>Usuarios</li>
+                    <li onClick={logout} tabIndex={0}>Cerrar Sesion</li>
                 </ul>
             </aside>
 

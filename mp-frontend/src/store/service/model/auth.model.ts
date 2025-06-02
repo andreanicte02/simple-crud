@@ -10,5 +10,6 @@ export interface AuthResponse {
         username: string;
         id_fiscal: number;
         rol: string;
+        id_fiscalia: number;
     };
 }

@@ -3,5 +3,7 @@ export interface Case {
     descripcion: string;
     fecha_creacion: Date;
     id_estado: number;
+    id_fiscalia: number;
     id_fiscal: number;
+    titulo: string;
 }

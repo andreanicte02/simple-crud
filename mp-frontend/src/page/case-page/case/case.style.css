@@ -1,2 +1,6 @@
-.case-div{
+.case-button {
+    display: flex;
+    justify-content: start;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
 }

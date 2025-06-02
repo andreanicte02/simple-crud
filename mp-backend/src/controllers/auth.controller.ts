@@ -10,7 +10,22 @@ export const login = async (req: Request, res: Response) => {
     try {
         const result = await pool.request()
             .input("username", username)
-            .query("SELECT id_usuario, username, password_hash, id_fiscal, rol FROM Usuario WHERE username = @username");
+            .query(`
+                SELECT 
+                  U.id_usuario,
+                  U.username,
+                  U.password_hash,
+                  U.id_fiscal,
+                  F.id_fiscalia,
+                  FA.nombre AS nombre_fiscalia,
+                  F.nombre AS nombre_fiscal,
+                  U.rol
+                FROM Usuario U
+                JOIN Fiscal F ON U.id_fiscal = F.id_fiscal
+                JOIN Fiscalia FA ON F.id_fiscalia = FA.id_fiscalia
+                WHERE U.username = @username
+            `);
+
         if (result.recordset.length === 0) {
             res.status(401).json({ error: "Usuario no encontrado" });
             return;
@@ -28,6 +43,7 @@ export const login = async (req: Request, res: Response) => {
                 id_usuario: user.id_usuario,
                 username: user.username,
                 id_fiscal: user.id_fiscal,
+                id_fiscalia: user.id_fiscalia,
                 rol: user.rol
             },
             JWT_SECRET,
@@ -40,6 +56,9 @@ export const login = async (req: Request, res: Response) => {
                 id_usuario: user.id_usuario,
                 username: user.username,
                 id_fiscal: user.id_fiscal,
+                id_fiscalia: user.id_fiscalia,
+                nombre_fiscal: user.nombre_fiscal,
+                nombre_fiscalia: user.nombre_fiscalia,
                 rol: user.rol
             }
         });
