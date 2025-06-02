@@ -4,7 +4,7 @@ import {User} from "../models/user.model";
 
 export const listUser = async (_req: Request, res: Response): Promise<void> => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT id_usuario, username, password_hash, id_fiscal
       FROM Usuario
@@ -13,14 +13,14 @@ export const listUser = async (_req: Request, res: Response): Promise<void> => {
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         const result = await pool.request()
             .input("id_usuario", parseInt(id))
             .query(`
@@ -36,14 +36,14 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const createUser = async (req: Request, res: Response): Promise<void> => {
     const { username, password_hash, id_fiscal } = req.body as Omit<User, "id_usuario">;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("username", username)
             .input("password_hash", password_hash)
@@ -56,7 +56,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
@@ -64,7 +64,7 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     const { username, password_hash, id_fiscal } = req.body;
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_usuario", parseInt(id))
             .input("username", username)
@@ -79,14 +79,14 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_usuario", parseInt(id))
             .query(`
@@ -97,6 +97,6 @@ export const deleteUser = async (req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };

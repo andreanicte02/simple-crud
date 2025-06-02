@@ -5,7 +5,7 @@ import {CaseInfo} from "../models/caseInfo.model";
 
 export const listCases = async (_req: Request, res: Response): Promise<void> => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT id_caso, descripcion, fecha_creacion, id_estado, id_fiscal
       FROM Caso
@@ -14,14 +14,14 @@ export const listCases = async (_req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getCaseById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         const result = await pool.request()
             .input("id_caso", parseInt(id))
             .query(`
@@ -37,14 +37,14 @@ export const getCaseById = async (req: Request, res: Response): Promise<void> =>
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const createCase = async (req: Request, res: Response): Promise<void> => {
     const { descripcion, fecha_creacion, id_estado, id_fiscal, titulo , id_fiscalia} = req.body as Omit<Case, "id_caso">;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("descripcion", descripcion)
             .input("fecha_creacion", fecha_creacion) //la feecha siempre ba en el backend por el horario xd
@@ -60,33 +60,32 @@ export const createCase = async (req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const updateCase = async (req: Request, res: Response): Promise<void> => {
-    const { descripcion, fecha_creacion, id_estado, id_fiscal,titulo, id_fiscalia  } = req.body;
+    const { descripcion, id_estado, id_fiscal,titulo, id_fiscalia  } = req.body;
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_caso", parseInt(id))
             .input("descripcion", descripcion)
-            .input("fecha_creacion", fecha_creacion)
             .input("id_estado", id_estado)
             .input("id_fiscal", id_fiscal)
             .input("titulo", titulo)
             .input("id_fiscalia", id_fiscalia)
             .query(`
         UPDATE Caso
-        SET descripcion = @descripcion, fecha_creacion = @fecha_creacion, id_estado = @id_estado, id_fiscal = @id_fiscal, @titulo= titulo, @id_fiscalia = id_fiscalia
+        SET descripcion = @descripcion, id_estado = @id_estado, id_fiscal = @id_fiscal, titulo= @titulo, id_fiscalia = @id_fiscalia
         WHERE id_caso = @id_caso
       `);
         res.json({ message: "Caso actualizado" });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
@@ -94,7 +93,7 @@ export const updateCase = async (req: Request, res: Response): Promise<void> => 
 export const deleteCase = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_caso", parseInt(id))
             .query(`
@@ -105,7 +104,7 @@ export const deleteCase = async (req: Request, res: Response): Promise<void> => 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
@@ -113,7 +112,7 @@ export const deleteCase = async (req: Request, res: Response): Promise<void> => 
 
 export const listCasesInfo = async (_req: Request, res: Response): Promise<void> => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT 
         C.id_caso,
@@ -135,14 +134,14 @@ export const listCasesInfo = async (_req: Request, res: Response): Promise<void>
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getCasesCountByStateForUser = async (req: Request, res: Response): Promise<void> => {
     const { id_usuario } = req.params;
     try {
-        await pool.connect();
+        
 
         const fiscalResult = await pool.request()
             .input("id_usuario", parseInt(id_usuario))
@@ -173,6 +172,6 @@ export const getCasesCountByStateForUser = async (req: Request, res: Response): 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };

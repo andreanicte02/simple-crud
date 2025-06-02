@@ -4,7 +4,7 @@ import {pool} from "../db";
 
 export const listProsecutionOffices = async (req: Request, res: Response) => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT id_fiscalia, nombre, ubicacion
       FROM Fiscalia
@@ -13,14 +13,14 @@ export const listProsecutionOffices = async (req: Request, res: Response) => {
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getProsecutionOfficeById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         const result = await pool.request()
             .input("id_fiscalia", parseInt(id))
             .query(`
@@ -36,14 +36,14 @@ export const getProsecutionOfficeById = async (req: Request, res: Response): Pro
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 export const updateProsecutionOffice = async (req: Request, res: Response) => {
     const { nombre, ubicacion } = req.body;
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_fiscalia", parseInt(id))
             .input("nombre", nombre)
@@ -57,14 +57,14 @@ export const updateProsecutionOffice = async (req: Request, res: Response) => {
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const deleteProsecutionOffice = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_fiscalia", parseInt(id))
             .query(`DELETE FROM Fiscalia WHERE id_fiscalia=@id_fiscalia`);
@@ -72,14 +72,14 @@ export const deleteProsecutionOffice = async (req: Request, res: Response) => {
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const createProsecutionOffice = async (req: Request, res: Response) => {
     const { nombre, ubicacion } = req.body as Omit<ProsecutionOffice, "id_fiscalia">;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("nombre", nombre)
             .input("ubicacion", ubicacion)

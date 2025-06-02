@@ -5,7 +5,7 @@ import {StateCase} from "../models/caseState.model";
 
 export const listStatesCase = async (_req: Request, res: Response): Promise<void> => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT id_estado, nombre
       FROM Estado_Caso
@@ -14,14 +14,14 @@ export const listStatesCase = async (_req: Request, res: Response): Promise<void
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getStateCaseById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         const result = await pool.request()
             .input("id_estado", parseInt(id))
             .query(`
@@ -37,14 +37,14 @@ export const getStateCaseById = async (req: Request, res: Response): Promise<voi
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const createStateCase = async (req: Request, res: Response): Promise<void> => {
     const { nombre } = req.body as Omit<StateCase, "id_estado">;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("nombre", nombre)
             .query(`
@@ -54,7 +54,7 @@ export const createStateCase = async (req: Request, res: Response): Promise<void
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
@@ -62,7 +62,7 @@ export const updateStateCase = async (req: Request, res: Response): Promise<void
     const { nombre } = req.body;
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_estado", parseInt(id))
             .input("nombre", nombre)
@@ -75,14 +75,14 @@ export const updateStateCase = async (req: Request, res: Response): Promise<void
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const deleteStateCase= async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_estado", parseInt(id))
             .query(`
@@ -93,6 +93,6 @@ export const deleteStateCase= async (req: Request, res: Response): Promise<void>
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };

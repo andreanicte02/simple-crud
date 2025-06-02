@@ -5,7 +5,7 @@ import {Request, Response} from "express";
 
 export const getListFiscal = async (_req: Request, res: Response): Promise<void> => {
     try {
-        await pool.connect();
+        
         const result = await pool.request().query(`
       SELECT id_fiscal, nombre, correo, id_fiscalia
       FROM Fiscal
@@ -14,14 +14,14 @@ export const getListFiscal = async (_req: Request, res: Response): Promise<void>
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const getFiscalById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         const result = await pool.request()
             .input("id_fiscal", parseInt(id))
             .query(`
@@ -37,14 +37,14 @@ export const getFiscalById = async (req: Request, res: Response): Promise<void> 
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const createFiscal = async (req: Request, res: Response): Promise<void> => {
     const { nombre, correo, id_fiscalia } = req.body as Omit<Fiscal, "id_fiscal">;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("nombre", nombre)
             .input("correo", correo)
@@ -57,16 +57,16 @@ export const createFiscal = async (req: Request, res: Response): Promise<void> =
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
-// Actualizar fiscal
+
 export const updateFiscal = async (req: Request, res: Response): Promise<void> => {
     const { nombre, correo, id_fiscalia } = req.body;
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_fiscal", parseInt(id))
             .input("nombre", nombre)
@@ -81,14 +81,14 @@ export const updateFiscal = async (req: Request, res: Response): Promise<void> =
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
     }
 };
 
 export const deleteFiscal = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {
-        await pool.connect();
+        
         await pool.request()
             .input("id_fiscal", parseInt(id))
             .query(`
@@ -99,6 +99,26 @@ export const deleteFiscal = async (req: Request, res: Response): Promise<void> =
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {
-        await pool.close();
+        console.log('Error')
+    }
+};
+
+
+export const getFiscalByOffice = async (req: Request, res: Response): Promise<void> => {
+    const { id_fiscalia } = req.params;
+    try {
+        
+        const result = await pool.request()
+            .input("id_fiscalia", parseInt(id_fiscalia))
+            .query(`
+                SELECT id_fiscal, nombre, correo, id_fiscalia
+                FROM Fiscal
+                WHERE id_fiscalia = @id_fiscalia
+            `);
+        res.json(result.recordset as Fiscal[]);
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
+    } finally {
+        console.log('Error')
     }
 };

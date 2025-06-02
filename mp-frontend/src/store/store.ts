@@ -6,12 +6,14 @@ import {setupListeners} from "@reduxjs/toolkit/query";
 import {middleware401} from './middleware/middleware401.ts'
 import {caseApi} from "./service/service/case.service.ts";
 import {caseStatusApi} from "./service/service/statusCase.service.ts";
+import {prosecutorOfficeApi} from "./service/service/prosecutorOffice.service.ts";
 
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
         [caseStatusApi.reducerPath]: caseStatusApi.reducer,
+        [prosecutorOfficeApi.reducerPath]: prosecutorOfficeApi.reducer,
         sessionSlice: sessionReducer,
         caseInfoSlice: caseInfoReducer,
 
@@ -21,6 +23,7 @@ export const store = configureStore({
             .concat(authApi.middleware)
             .concat(caseApi.middleware)
             .concat(caseStatusApi.middleware)
+            .concat(prosecutorOfficeApi.middleware)
             .concat(middleware401)
 });
 

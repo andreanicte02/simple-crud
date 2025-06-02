@@ -1,18 +1,24 @@
 import {useSelector} from "react-redux";
 import type {RootState} from "../../../../../store/store.ts";
-import {type SubmitHandler, useForm} from "react-hook-form";
+import {type SubmitHandler, useForm, useWatch} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import Input from "../../../../../_util/components/Input/Input.tsx";
 import Button from "../../../../../_util/components/Button/Button.tsx";
 import {yupCaseEdit, type CaseEdit} from "../../core/_models.ts";
 import {useGetCaseStatusQuery} from "../../../../../store/service/service/statusCase.service.ts";
 import {useUpdateCaseMutation} from "../../../../../store/service/service/case.service.ts";
+import {
+    useListFiscalMutation,
+    useListProsecutorOfficeQuery
+} from "../../../../../store/service/service/prosecutorOffice.service.ts";
+import {useEffect} from "react";
 
 export const FormEditCase = () => {
-    const session = useSelector((state: RootState) => state.sessionSlice.user);
     const currentCase = useSelector((state: RootState) => state.caseInfoSlice.currentCase);
     const caseStatus = useGetCaseStatusQuery();
+    const prosectourOffice = useListProsecutorOfficeQuery(undefined, {refetchOnMountOrArgChange: true});
     const [updateCaseApi, updateCaseApiStatus] = useUpdateCaseMutation();
+    const [fiscalApi, fiscalApiStatus] = useListFiscalMutation();
 
     const form = useForm({
         resolver: yupResolver(yupCaseEdit),
@@ -20,19 +26,30 @@ export const FormEditCase = () => {
             description: currentCase!.descripcion,
             name: currentCase!.titulo,
             status: currentCase!.id_estado.toString()!,
-
+            id_fiscal: currentCase!.id_fiscal.toString(),
         }
     });
+
+
+    const idProsecutorOffice = useWatch({
+        control: form.control,
+        name: "id_fiscalia",
+        defaultValue: currentCase!.id_fiscalia.toString(),
+    });
+
+    useEffect(() => {
+        fiscalApi(idProsecutorOffice)
+          }, [idProsecutorOffice]);
 
 
     const onClick: SubmitHandler<CaseEdit> = (value) => {
         updateCaseApi({
             id_caso: currentCase!.id_caso,
             descripcion: value.description,
-            id_estado: Number( value.status),
-            id_fiscal: session.id_fiscal,
+            id_estado: Number(value.status),
+            id_fiscal: Number(value.id_fiscal),
             titulo: value.name,
-            id_fiscalia: session.id_fiscalia,
+            id_fiscalia: Number(value.id_fiscalia),
             fecha_creacion: new Date(currentCase!.fecha_creacion),
         })
     }
@@ -93,7 +110,47 @@ export const FormEditCase = () => {
                     <label>
                         Fiscalia
                     </label>
-                    <Input placeholder={currentCase!.nombre_fiscalia} disabled={true}/>
+                    <select
+                        {...form.register("id_fiscalia")}
+                        disabled={prosectourOffice.isLoading}
+                        defaultValue=""
+                        className={'material-select'}
+                    >
+                        <option value="" disabled>
+                            Selecciona una fiscalia
+                        </option>
+                        {prosectourOffice.data?.map((status) => (
+                            <option key={status.id_fiscalia} value={status.id_fiscalia}>
+                                {status.nombre}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className={'div-input'}>
+                    <label>
+                        Fiscal
+                    </label>
+                    {(fiscalApiStatus.isLoading)?
+                        <>
+                            <Input disabled={true}/>
+                        </> :
+                        <select
+                            {...form.register("id_fiscal")}
+                            disabled={fiscalApiStatus.isLoading}
+                            defaultValue=""
+                            className={'material-select'}
+                        >
+                            <option value="" disabled>
+                                Selecciona un fiscal
+                            </option>
+                            {fiscalApiStatus?.data?.map((status) => (
+                                <option key={status.id_fiscal} value={status.id_fiscal}>
+                                    {status.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    }
                 </div>
 
                 <Button type="submit" disabled={!form.formState.isValid || updateCaseApiStatus.isLoading}>
