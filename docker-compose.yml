@@ -25,6 +25,9 @@ services:
       - mp-network
     volumes:
       - ./mp-backend:/usr/src/app
+    environment:
+      - NODE_ENV=production
+      # Si usas variables de config, añade aquí FRONTEND_URL, etc.
 
   frontend:
     build:
@@ -33,9 +36,12 @@ services:
     depends_on:
       - backend
     ports:
-      - "3000:80"
+      - "80:80" # Así accedes a frontend por http://midominio.local
     networks:
       - mp-network
+    environment:
+      - NODE_ENV=production
+      # Si usas variables de config, añade aquí VITE_API_URL, etc.
 
 networks:
   mp-network:
