@@ -30,4 +30,14 @@ export type CreateCaseRequest = {
     id_fiscalia: number
 };
 
+export interface UpdateCaseRequest {
+    descripcion: string;
+    fecha_creacion: Date;
+    id_estado: number;
+    id_fiscal: number;
+    titulo: string;
+    id_fiscalia: number;
+    id_caso: number;
+}
+
 export type CaseInfoListResponse = CaseInfo[];

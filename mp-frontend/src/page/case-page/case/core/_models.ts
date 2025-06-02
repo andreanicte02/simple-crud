@@ -9,3 +9,15 @@ export const ypuCase = yup.object().shape({
     name: yup.string().required('Campo obligatorio'),
     description: yup.string().required('Campo obligatorio'),
 })
+
+export interface CaseEdit{
+    name: string
+    description:string
+    status: string
+}
+
+export const yupCaseEdit = yup.object().shape({
+    name: yup.string().required('Campo obligatorio'),
+    description: yup.string().required('Campo obligatorio'),
+    status: yup.string().required('Campo obligatorio'),
+})

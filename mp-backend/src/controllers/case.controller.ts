@@ -65,7 +65,7 @@ export const createCase = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const updateCase = async (req: Request, res: Response): Promise<void> => {
-    const { descripcion, fecha_creacion, id_estado, id_fiscal } = req.body;
+    const { descripcion, fecha_creacion, id_estado, id_fiscal,titulo, id_fiscalia  } = req.body;
     const { id } = req.params;
     try {
         await pool.connect();
@@ -75,9 +75,11 @@ export const updateCase = async (req: Request, res: Response): Promise<void> => 
             .input("fecha_creacion", fecha_creacion)
             .input("id_estado", id_estado)
             .input("id_fiscal", id_fiscal)
+            .input("titulo", titulo)
+            .input("id_fiscalia", id_fiscalia)
             .query(`
         UPDATE Caso
-        SET descripcion = @descripcion, fecha_creacion = @fecha_creacion, id_estado = @id_estado, id_fiscal = @id_fiscal
+        SET descripcion = @descripcion, fecha_creacion = @fecha_creacion, id_estado = @id_estado, id_fiscal = @id_fiscal, @titulo= titulo, @id_fiscalia = id_fiscalia
         WHERE id_caso = @id_caso
       `);
         res.json({ message: "Caso actualizado" });

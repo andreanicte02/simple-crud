@@ -6,6 +6,8 @@ import {useCreateCaseMutation} from "../../../../../store/service/service/case.s
 import {type SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {type Case, ypuCase} from "../../core/_models.ts";
+import Alert from "../../../../../_util/components/Alert/Alert.tsx";
+import {getRTKError} from "../../../../../_util/functions.ts";
 
 export const FormCreateCase = () => {
     const [createCaseApi, createCaseApiStatus] = useCreateCaseMutation();
@@ -48,6 +50,10 @@ export const FormCreateCase = () => {
                         {...form.register("description")}
                     />
                 </div>
+
+                {createCaseApiStatus.isError && (
+                    <Alert message={getRTKError(createCaseApiStatus.error)} type={'danger'}></Alert>
+                )}
 
                 <Button type="submit" disabled={!form.formState.isValid || createCaseApiStatus.isLoading}>
                     {createCaseApiStatus.isLoading ? "Cargando..." : "Crear"}

@@ -6,6 +6,7 @@ import './case.style.css'
 import {useDispatch} from "react-redux";
 import {setCaseModal} from "../../../store/slice/caseInfo.slice.ts";
 import {ModalCreateCase} from "./components/create-case/ModalCreateCase.tsx";
+import {ModalEditCase} from "./components/edit-case/ModalEditCase.tsx";
 
 export const Case = () => {
 
@@ -29,6 +30,7 @@ export const Case = () => {
             <Table columns={caseColumns} data={caseApi?.data || []} isLoading={caseApi.isLoading}/>
 
             <ModalCreateCase/>
+            <ModalEditCase/>
         </div>
     );
 };

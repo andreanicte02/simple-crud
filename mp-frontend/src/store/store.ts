@@ -5,11 +5,13 @@ import caseInfoReducer from './slice/caseInfo.slice.ts'
 import {setupListeners} from "@reduxjs/toolkit/query";
 import {middleware401} from './middleware/middleware401.ts'
 import {caseApi} from "./service/service/case.service.ts";
+import {caseStatusApi} from "./service/service/statusCase.service.ts";
 
 export const store = configureStore({
     reducer: {
         [authApi.reducerPath]: authApi.reducer,
         [caseApi.reducerPath]: caseApi.reducer,
+        [caseStatusApi.reducerPath]: caseStatusApi.reducer,
         sessionSlice: sessionReducer,
         caseInfoSlice: caseInfoReducer,
 
@@ -18,6 +20,7 @@ export const store = configureStore({
         getDefaultMiddleware()
             .concat(authApi.middleware)
             .concat(caseApi.middleware)
+            .concat(caseStatusApi.middleware)
             .concat(middleware401)
 });
 
