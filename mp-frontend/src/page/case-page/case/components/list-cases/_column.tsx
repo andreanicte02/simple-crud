@@ -1,6 +1,6 @@
 import type { column } from "../../../../../_util/components/Table/column";
-import Button from "../../../../../_util/components/Button/Button";
 import type {CaseInfo} from "../../../../../store/service/model/case.model.ts";
+import {CaseDetailButton} from "./CaseDetailButton.tsx";
 
 export const caseColumns: ReadonlyArray<column<CaseInfo>> = [
     {
@@ -50,10 +50,8 @@ export const caseColumns: ReadonlyArray<column<CaseInfo>> = [
     {
         id: 'actions',
         label: 'ACCIONES',
-        format: () => (
-            <Button>
-                Detalle
-            </Button>
+        format: (row) => (
+            <CaseDetailButton currentCase={row}/>
         ),
     },
 ];
