@@ -2,12 +2,20 @@ import express from "express";
 const app = express();
 const cors = require('cors');
 
-app.use(express.json());
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:3000',
     credentials: true
 }));
+
+app.options('*', cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use(express.json());
+
+
 
 import prosecutionOfficeRoutes from "./routes/presecutionOffice.route";
 import fiscalRoute from "./routes/fiscal.route";
@@ -25,6 +33,6 @@ app.use("/case", caseRoute);
 app.use("/log", logRoute);
 app.use("/auth", authRoute);
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+app.listen(3001, "0.0.0.0", () => {
+    console.log("Server running on port 3001");
 });

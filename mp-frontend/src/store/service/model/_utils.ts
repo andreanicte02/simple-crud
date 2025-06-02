@@ -5,7 +5,8 @@ export const sessionInit: AuthResponse = {
         id_usuario: 0,
         username: '',
         id_fiscal: 0,
-        rol: ''
+        rol: '',
+        id_fiscalia:0
     },
     token: ''
 };

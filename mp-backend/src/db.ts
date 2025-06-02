@@ -1,16 +1,16 @@
-import { ConnectionPool, config } from "mssql";
+import sql, {ConnectionPool} from "mssql";
 
-export const dbConfig: config = {
+const sqlConfig = {
     user: "sa",
     password: "YourStrong!Passw0rd",
-    server: "localhost",
+    server: "sqlserver",
     database: "MinisterioPublicoDB",
+    port: 1433,
     options: {
         encrypt: false,
-        trustServerCertificate: true
     }
 };
 
-export const pool = new ConnectionPool(dbConfig);
+export const pool = new ConnectionPool(sqlConfig);
 
 export const poolConnect = pool.connect();
