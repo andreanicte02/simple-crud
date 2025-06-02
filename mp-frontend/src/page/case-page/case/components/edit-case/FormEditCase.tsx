@@ -12,6 +12,8 @@ import {
     useListProsecutorOfficeQuery
 } from "../../../../../store/service/service/prosecutorOffice.service.ts";
 import {useEffect} from "react";
+import Alert from "../../../../../_util/components/Alert/Alert.tsx";
+import {getRTKError} from "../../../../../_util/functions.ts";
 
 export const FormEditCase = () => {
     const currentCase = useSelector((state: RootState) => state.caseInfoSlice.currentCase);
@@ -27,6 +29,7 @@ export const FormEditCase = () => {
             name: currentCase!.titulo,
             status: currentCase!.id_estado.toString()!,
             id_fiscal: currentCase!.id_fiscal.toString(),
+            id_fiscalia: currentCase!.id_fiscalia.toString(),
         }
     });
 
@@ -39,7 +42,7 @@ export const FormEditCase = () => {
 
     useEffect(() => {
         fiscalApi(idProsecutorOffice)
-          }, [idProsecutorOffice]);
+    }, [idProsecutorOffice]);
 
 
     const onClick: SubmitHandler<CaseEdit> = (value) => {
@@ -131,7 +134,7 @@ export const FormEditCase = () => {
                     <label>
                         Fiscal
                     </label>
-                    {(fiscalApiStatus.isLoading)?
+                    {(fiscalApiStatus.isLoading) ?
                         <>
                             <Input disabled={true}/>
                         </> :
@@ -151,6 +154,12 @@ export const FormEditCase = () => {
                             ))}
                         </select>
                     }
+                </div>
+
+                <div style={{ maxWidth:'280px' }}>
+                    {updateCaseApiStatus.isError && (
+                        <Alert message={getRTKError(updateCaseApiStatus.error)} type={'danger'}></Alert>
+                    )}
                 </div>
 
                 <Button type="submit" disabled={!form.formState.isValid || updateCaseApiStatus.isLoading}>

@@ -64,11 +64,66 @@ export const createCase = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
+const ESTADO_PENDIENTE = 1;
+
 export const updateCase = async (req: Request, res: Response): Promise<void> => {
-    const { descripcion, id_estado, id_fiscal,titulo, id_fiscalia  } = req.body;
+    const { descripcion, id_estado, id_fiscal, titulo, id_fiscalia } = req.body;
     const { id } = req.params;
+
     try {
-        
+        // 1. Obtén los datos actuales del caso
+        const casoResult = await pool.request()
+            .input("id_caso", parseInt(id))
+            .query(`
+                SELECT id_estado, id_fiscal, id_fiscalia
+                FROM Caso
+                WHERE id_caso = @id_caso
+            `);
+
+        if (casoResult.recordset.length === 0) {
+            res.status(404).json({ error: "Caso no encontrado" });
+            return;
+        }
+
+        const casoActual = casoResult.recordset[0];
+
+        if (casoActual.id_estado !== ESTADO_PENDIENTE) {
+            await pool.request()
+                .input("id_caso", parseInt(id))
+                .input("id_fiscal_anterior", casoActual.id_fiscal)
+                .input("id_fiscal_nuevo", id_fiscal)
+                .input("motivo", "Reasignación fallida: El estado del caso no es pendiente.")
+                .query(`
+                    INSERT INTO Bitacora_Log (id_caso, id_fiscal_anterior, id_fiscal_nuevo, motivo)
+                    VALUES (@id_caso, @id_fiscal_anterior, @id_fiscal_nuevo, @motivo)
+                `);
+            res.status(400).json({ error: "Solo se puede reasignar si el caso está en estado pendiente." });
+            return;
+        }
+
+        const fiscalResult = await pool.request()
+            .input("id_fiscal", id_fiscal)
+            .query("SELECT id_fiscalia FROM Fiscal WHERE id_fiscal = @id_fiscal");
+        if (fiscalResult.recordset.length === 0) {
+            res.status(404).json({ error: "Nuevo fiscal no encontrado" });
+            return;
+        }
+
+        const fiscaliaNueva = fiscalResult.recordset[0].id_fiscalia;
+        if (fiscaliaNueva !== casoActual.id_fiscalia) {
+            await pool.request()
+                .input("id_caso", parseInt(id))
+                .input("id_fiscal_anterior", casoActual.id_fiscal)
+                .input("id_fiscal_nuevo", id_fiscal)
+                .input("motivo", "Reasignación fallida: El nuevo fiscal no pertenece a la misma fiscalía.")
+                .query(`
+                    INSERT INTO Bitacora_Log (id_caso, id_fiscal_anterior, id_fiscal_nuevo, motivo)
+                    VALUES (@id_caso, @id_fiscal_anterior, @id_fiscal_nuevo, @motivo)
+                `);
+            res.status(400).json({ error: "El nuevo fiscal debe pertenecer a la misma fiscalía." });
+            return;
+        }
+
         await pool.request()
             .input("id_caso", parseInt(id))
             .input("descripcion", descripcion)
@@ -77,18 +132,16 @@ export const updateCase = async (req: Request, res: Response): Promise<void> => 
             .input("titulo", titulo)
             .input("id_fiscalia", id_fiscalia)
             .query(`
-        UPDATE Caso
-        SET descripcion = @descripcion, id_estado = @id_estado, id_fiscal = @id_fiscal, titulo= @titulo, id_fiscalia = @id_fiscalia
-        WHERE id_caso = @id_caso
-      `);
-        res.json({ message: "Caso actualizado" });
+                UPDATE Caso
+                SET descripcion = @descripcion, id_estado = @id_estado, id_fiscal = @id_fiscal, titulo = @titulo, id_fiscalia = @id_fiscalia
+                WHERE id_caso = @id_caso
+            `);
+
+        res.json({ message: "Caso actualizado correctamente." });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
-    } finally {
-        console.log('Error')
     }
 };
-
 
 export const deleteCase = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
