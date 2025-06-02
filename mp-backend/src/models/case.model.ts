@@ -7,3 +7,9 @@ export interface Case {
     id_fiscal: number;
     titulo: string;
 }
+
+export interface ReportByUser {
+    id_usuario: number;
+    username: string;
+    cantidad_casos: number;
+}

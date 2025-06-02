@@ -96,7 +96,7 @@ export const FormEditCase = () => {
                     <Input placeholder={currentCase!.nombre_fiscalia} disabled={true}/>
                 </div>
 
-                <Button type="submit" disabled={!form.formState.isValid}>
+                <Button type="submit" disabled={!form.formState.isValid || updateCaseApiStatus.isLoading}>
                     Editar
                 </Button>
             </div>

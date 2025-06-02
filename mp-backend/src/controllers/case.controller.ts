@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../db";
-import {Case} from "../models/case.model";
+import {Case, ReportByUser} from "../models/case.model";
 import {CaseInfo} from "../models/caseInfo.model";
 
 export const listCases = async (_req: Request, res: Response): Promise<void> => {
@@ -132,6 +132,44 @@ export const listCasesInfo = async (_req: Request, res: Response): Promise<void>
       JOIN Fiscal F ON C.id_fiscal = F.id_fiscal
     `);
         res.json(result.recordset as CaseInfo[]);
+    } catch (err: any) {
+        res.status(500).json({ error: err.message });
+    } finally {
+        await pool.close();
+    }
+};
+
+export const getCasesCountByStateForUser = async (req: Request, res: Response): Promise<void> => {
+    const { id_usuario } = req.params;
+    try {
+        await pool.connect();
+
+        const fiscalResult = await pool.request()
+            .input("id_usuario", parseInt(id_usuario))
+            .query("SELECT id_fiscal FROM Usuario WHERE id_usuario = @id_usuario");
+
+        if (fiscalResult.recordset.length === 0) {
+            res.status(404).json({ error: "Usuario no encontrado o no tiene fiscal asociado" });
+            return;
+        }
+        const id_fiscal = fiscalResult.recordset[0].id_fiscal;
+
+
+        const casesResult = await pool.request()
+            .input("id_fiscal", id_fiscal)
+            .query(`
+                SELECT 
+                    C.id_estado,
+                    E.nombre AS nombre_estado,
+                    COUNT(*) AS cantidad
+                FROM Caso C
+                JOIN Estado_Caso E ON C.id_estado = E.id_estado
+                WHERE C.id_fiscal = @id_fiscal
+                GROUP BY C.id_estado, E.nombre
+                ORDER BY cantidad DESC
+            `);
+
+        res.json(casesResult.recordset as ReportByUser[]);
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     } finally {

@@ -2,7 +2,7 @@ import {Router} from "express";
 import {
     createCase,
     deleteCase,
-    getCaseById,
+    getCaseById, getCasesCountByStateForUser,
     listCases,
     listCasesInfo,
     updateCase
@@ -17,4 +17,5 @@ router.get("/:id",verifyToken, getCaseById);
 router.post("/",verifyToken, createCase);
 router.put("/:id",verifyToken, updateCase);
 router.delete("/:id", verifyToken,deleteCase);
+router.get("/list/:id_usuario", getCasesCountByStateForUser);
 export default router;

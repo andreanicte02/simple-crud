@@ -41,3 +41,11 @@ export interface UpdateCaseRequest {
 }
 
 export type CaseInfoListResponse = CaseInfo[];
+
+export interface CasesByState {
+    id_estado: number;
+    nombre_estado: string;
+    cantidad: number;
+}
+
+export type GetCasesCountByStateForUserResponse = CasesByState[];

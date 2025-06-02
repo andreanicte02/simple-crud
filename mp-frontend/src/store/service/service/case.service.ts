@@ -1,6 +1,11 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {getHeader} from "../../../_util/functions.ts";
-import type {CaseInfoListResponse, CreateCaseRequest, UpdateCaseRequest} from "../model/case.model.ts";
+import type {
+    CaseInfoListResponse,
+    CreateCaseRequest,
+    GetCasesCountByStateForUserResponse,
+    UpdateCaseRequest
+} from "../model/case.model.ts";
 import {setCaseModal} from "../../slice/caseInfo.slice.ts";
 
 export const caseApi = createApi({
@@ -48,6 +53,9 @@ export const caseApi = createApi({
             },
             invalidatesTags: ['list']
         }),
+        getCasesByUser: builder.query<GetCasesCountByStateForUserResponse, string>({
+            query: (data) => `case/list/${data}`,
+        }),
     }),
 
 });
@@ -56,4 +64,5 @@ export const {
     useListCasesQuery,
     useCreateCaseMutation,
     useUpdateCaseMutation,
+    useGetCasesByUserQuery
 } = caseApi;
