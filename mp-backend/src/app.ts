@@ -1,12 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 const app = express();
 const cors = require('cors');
 
 
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
-
-
 
 import prosecutionOfficeRoutes from "./routes/presecutionOffice.route";
 import fiscalRoute from "./routes/fiscal.route";

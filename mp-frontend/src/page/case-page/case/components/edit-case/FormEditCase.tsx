@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "../../../../../store/store.ts";
 import {type SubmitHandler, useForm, useWatch} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -14,6 +14,8 @@ import {
 import {useEffect} from "react";
 import Alert from "../../../../../_util/components/Alert/Alert.tsx";
 import {getRTKError} from "../../../../../_util/functions.ts";
+import { useSuccessMessage } from "../../../../../_util/context/SuccessMessageContext.tsx";
+import {setCaseModal} from "../../../../../store/slice/caseInfo.slice.ts";
 
 export const FormEditCase = () => {
     const currentCase = useSelector((state: RootState) => state.caseInfoSlice.currentCase);
@@ -21,6 +23,18 @@ export const FormEditCase = () => {
     const prosectourOffice = useListProsecutorOfficeQuery(undefined, {refetchOnMountOrArgChange: true});
     const [updateCaseApi, updateCaseApiStatus] = useUpdateCaseMutation();
     const [fiscalApi, fiscalApiStatus] = useListFiscalMutation();
+    const dispatch = useDispatch();
+
+    const {showSuccess} = useSuccessMessage();
+
+
+    useEffect(() => {
+
+        if(!updateCaseApiStatus.isSuccess) return;
+        showSuccess('Caso editado correctamente');
+        dispatch(setCaseModal('none'));
+
+    }, [updateCaseApiStatus.isSuccess]);
 
     const form = useForm({
         resolver: yupResolver(yupCaseEdit),

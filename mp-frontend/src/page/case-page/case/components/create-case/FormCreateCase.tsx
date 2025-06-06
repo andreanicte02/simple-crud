@@ -1,21 +1,36 @@
 import Input from "../../../../../_util/components/Input/Input.tsx";
 import Button from "../../../../../_util/components/Button/Button.tsx";
-import {useSelector} from "react-redux";
-import type {RootState} from "../../../../../store/store.ts";
 import {useCreateCaseMutation} from "../../../../../store/service/service/case.service.ts";
 import {type SubmitHandler, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {type Case, ypuCase} from "../../core/_models.ts";
 import Alert from "../../../../../_util/components/Alert/Alert.tsx";
 import {getRTKError} from "../../../../../_util/functions.ts";
+import {useGetSessionHook} from "../../../../../_util/hooks/useSessionHook.tsx";
+import {useSuccessMessage} from "../../../../../_util/context/SuccessMessageContext.tsx";
+import {useEffect} from "react";
+import {setCaseModal} from "../../../../../store/slice/caseInfo.slice.ts";
+import {useDispatch} from "react-redux";
 
 export const FormCreateCase = () => {
     const [createCaseApi, createCaseApiStatus] = useCreateCaseMutation();
-    const session = useSelector((state: RootState) => state.sessionSlice.user);
+    const session = useGetSessionHook();
+    const {showSuccess} = useSuccessMessage();
+    const dispatch = useDispatch();
 
     const form = useForm({
         resolver: yupResolver(ypuCase),
     });
+
+    useEffect(() => {
+
+        if(!createCaseApiStatus.isSuccess) return;
+
+        showSuccess('Caso creado correctamente');
+
+        dispatch(setCaseModal('none'));
+
+    }, [createCaseApiStatus.isSuccess]);
 
     const onClick: SubmitHandler<Case> = (value) => {
         createCaseApi({

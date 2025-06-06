@@ -6,7 +6,6 @@ import type {
     GetCasesCountByStateForUserResponse,
     UpdateCaseRequest
 } from "../model/case.model.ts";
-import {setCaseModal} from "../../slice/caseInfo.slice.ts";
 
 export const caseApi = createApi({
     reducerPath: "caseApi",
@@ -29,12 +28,11 @@ export const caseApi = createApi({
                 method: 'POST',
                 body: data,
             }),
-            async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+            async onQueryStarted(_arg, { queryFulfilled }) {
                 const result = await queryFulfilled.catch((e) => ({ error: e }));
                 if ('error' in result) {
                     return;
                 }
-                dispatch(setCaseModal('none'));
             },
             invalidatesTags: ['list']
         }),
@@ -44,12 +42,11 @@ export const caseApi = createApi({
                 method: 'PUT',
                 body: data,
             }),
-            async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+            async onQueryStarted(_arg, { queryFulfilled }) {
                 const result = await queryFulfilled.catch((e) => ({ error: e }));
                 if ('error' in result) {
                     return;
                 }
-                dispatch(setCaseModal('none'));
             },
             invalidatesTags: ['list']
         }),

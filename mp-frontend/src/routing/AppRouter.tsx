@@ -1,6 +1,6 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import {AuthPage} from "../page/auth-page/AuthPage.tsx";
-import {useGetSessionHook} from "../_util/hooks/useSessionHook.tsx";
+import {useGetSessionHook} from "../_util/hooks/useSessionTokenHook.tsx";
 import {Layout} from "../_util/layout/Layout.tsx";
 import {CasePage} from "../page/case-page/CasePage.tsx";
 import {CaseReportPage} from "../page/case-report-page/CaseReportPage.tsx";
